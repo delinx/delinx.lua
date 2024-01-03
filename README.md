@@ -1,5 +1,6 @@
 # delinx.lua
 This theme was made by expanding on J Blow's theme, ported to Neovim, and adapted to my taste. 
+Completed for Rust, mostly completed for C++, mostly works for everything else but some hl groups are still missing, wip. 
 
 # Rust
 ![image](https://github.com/delinx/delinx.lua/assets/6831935/61da3bf6-42d3-4592-963d-258f8e1a3e97)
