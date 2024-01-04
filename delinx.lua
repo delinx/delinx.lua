@@ -262,6 +262,9 @@ local custom_groups = {
   ["@text.literal.block.markdown"] = { c.mystic, c.none, s.italic },
   ["@text.literal.markdown_inline"] = { c.mystic, c.none, s.italic },
   ["@text.emphasis.markdown_inline"] = { c.tan, c.none, s.italic },
+  ["@text.todo.unchecked.markdown"] = { c.mystic, c.none, s.italic },
+  ["@text.todo.checked.markdown"] = { c.pastelgreen, c.none, s.italic },
+
 }
 
 
