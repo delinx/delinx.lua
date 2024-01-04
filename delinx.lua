@@ -137,11 +137,15 @@ local s = {
   char_const = copy(style_default),
   todo = copy(style_default),
   underlined = copy(style_default),
+  bold = copy(style_default),
+  italic = copy(style_default),
 }
 
 s.comment.italic = true
 s.char_const.italic = true
 s.todo.italic = true
+s.bold.bold = true
+s.italic.italic = true
 
 
 -- Defined custom groups
@@ -233,6 +237,31 @@ local custom_groups = {
   ["TelescopeResultsLineNr"] = { c.punch, c.none, s.default },
   ["TelescopeResultsSpecialComment"] = { c.punch, c.none, s.default },
   ["TelescopeResultsComment"] = { c.punch, c.none, s.default },
+  -- -- Markdown
+  ["@spell.markdown"] = { c.tan, c.none, s.default },
+  ["@text.title.1.markdown"] = { c.green, c.none, s.bold },
+  ["@text.title.2.markdown"] = { c.green, c.none, s.bold },
+  ["@text.title.3.markdown"] = { c.green, c.none, s.bold },
+  ["@text.title.4.markdown"] = { c.green, c.none, s.bold },
+  ["@text.title.5.markdown"] = { c.green, c.none, s.bold },
+  ["@text.title.6.markdown"] = { c.green, c.none, s.bold },
+  ["@text.title.1.marker.markdown"] = { c.pastelgreen, c.none, s.default },
+  ["@text.title.2.marker.markdown"] = { c.pastelgreen, c.none, s.default },
+  ["@text.title.3.marker.markdown"] = { c.pastelgreen, c.none, s.default },
+  ["@text.title.4.marker.markdown"] = { c.pastelgreen, c.none, s.default },
+  ["@text.title.5.marker.markdown"] = { c.pastelgreen, c.none, s.default },
+  ["@text.title.6.marker.markdown"] = { c.pastelgreen, c.none, s.default },
+  ["@punctuation.special.markdown"] = { c.green, c.none, s.default },
+  ["@punctuation.bracket.markdown_inline"] = { c.green, c.none, s.default },
+  ["@punctuation.reference.markdown_inline"] = { c.tan, c.none, s.default },
+  ["@punctuation.delimiter.markdown_inline"] = { c.green, c.none, s.default },
+  ["@text.uri.markdown_inline"] = { c.pastelgreen, c.none, s.default },
+  ["@text.strong.markdown_inline"] = { c.tan, c.none, s.bold },
+  ["@text.reference.markdown_inline"] = { c.green, c.none, s.default },
+  ["@text.quote.markdown"] = { c.tan, c.none, s.italic },
+  ["@text.literal.block.markdown"] = { c.mystic, c.none, s.italic },
+  ["@text.literal.markdown_inline"] = { c.mystic, c.none, s.italic },
+  ["@text.emphasis.markdown_inline"] = { c.tan, c.none, s.italic },
 }
 
 
