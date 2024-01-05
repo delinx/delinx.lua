@@ -204,10 +204,11 @@ local custom_groups = {
   ["pmenuthumb"] = { c.none, c.swamp, s.default },
   -- -- LSP Groups
   -- -- TS Groups
-  ["@type.builtin"] = { c.riptide, c.none, s.default },                  -- built in types
-  ["@type.qualifier.rust"] = { c.mystic, c.none, s.default },            -- rust mut
+  ["@type.builtin"] = { c.riptide, c.none, s.default },                       -- built in types
+  ["@type.qualifier.rust"] = { c.mystic, c.none, s.default },                 -- rust mut
   -- -- Rust Groups
-  ["@lsp.typemod.keyword.unsafe.rust"] = { c.punch, c.none, s.default }, -- rust unfase
+  ["@lsp.typemod.keyword.unsafe.rust"] = { c.punch, c.none, s.default },      -- rust unfase
+  ["@lsp.typemod.typealias.declaration.rust"] = { c.tan, c.none, s.default }, -- type alias lvalue
   -- TODO: unsafe
   -- -- Custom
   -- -- unsorted
@@ -264,9 +265,44 @@ local custom_groups = {
   ["@text.emphasis.markdown_inline"] = { c.tan, c.none, s.italic },
   ["@text.todo.unchecked.markdown"] = { c.mystic, c.none, s.italic },
   ["@text.todo.checked.markdown"] = { c.pastelgreen, c.none, s.italic },
+  -- -- -- Verse support
+  ["@verse"] = { c.tan, c.none, s.default },
+  ["@verse.block_comment"] = { c.green, c.none, s.comment },
+  ["@verse.comment"] = { c.green, c.none, s.comment },
+  ["@verse.hex"] = { c.riptide, c.none, s.default },
+  ["@verse.number"] = { c.riptide, c.none, s.default },
+  ["@verse.string"] = { c.turquoise, c.none, s.default },
+  ["@verse.keywords.logic"] = { c.white, c.none, s.default },
+  ["@verse.keywords.special"] = { c.mystic, c.none, s.default },
+  ["@verse.keywords.reserved"] = { c.mystic, c.none, s.default },
+  ["@verse.keywords.effects"] = { c.mystic, c.none, s.default },
+  ["@verse.keywords.types"] = { c.riptide, c.none, s.default },
+  ["@verse.keywords.attention"] = { c.punch, c.none, s.default },
 
 }
 
+function Load_Verse()
+  -- -- -- Verse support groups
+  vim.cmd([[syntax clear]])
+  vim.cmd([[syntax match @verse /./]])
+  vim.cmd([[syntax match @verse.keywords.special "[.<>:,!@%^&*+=|\-\\?~]"]])
+  vim.cmd([[syntax match @verse.number.octal "0o[0-7]\+"]])
+  vim.cmd([[syntax match @verse.number.binary "0b[01]\+"]])
+  vim.cmd([[syntax match @verse.number.decimal "\<[0-9]\+\(\.[0-9]\+\)\?\>"]])
+  vim.cmd([[syntax match @verse.number.scientific "e[+-]\=[0-9]\+"]])
+  vim.cmd([[syntax match @verse.hex "0x[0-9A-Fa-f]\+"]])
+  vim.cmd([[syntax match @verse.comment "\v([^<]|^)#([^>]|$).*"]])
+  vim.cmd([[syntax region @verse.block_comment start=/<#/ end=/#>/]])
+  vim.cmd([[syntax region @verse.string start=/"/ end=/"/]])
+  vim.cmd([[syntax keyword @verse.keywords.logic if else then return for while loop block case do]])
+  vim.cmd([[syntax keyword @verse.keywords.attention return break continue]])
+  vim.cmd(
+    [[syntax keyword @verse.keywords.reserved where interface class module enum using set map array tuple var external editable]])
+  vim.cmd(
+    [[syntax keyword @verse.keywords.types int string logic true vector3 transform false message listenable translation rotation vector2 struct color agent type t comparable char float void creative_prop Print]])
+  vim.cmd(
+    [[syntax keyword @verse.keywords.effects transacts suspends override abstract native concrete final public unique persistent private computes epic_internal decides localizes varies module_scoped_var_weak_map_key]])
+end
 
 -- Utility
 local function apply_hl_groups()
@@ -294,3 +330,10 @@ end
 vim.cmd.hi("clear")
 vim.cmd('syntax reset')
 apply_hl_groups()
+
+vim.cmd [[
+    augroup CustomFileTypeStreamTODO
+        autocmd!
+        autocmd BufRead,BufNewFile *.verse lua Load_Verse()
+    augroup END
+]]
