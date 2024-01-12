@@ -151,6 +151,8 @@ s.italic.italic = true
 -- Defined custom groups
 -- Layout: bg, fg, under, italic, bold
 local custom_groups = {
+  -- -- Change plain text colour
+  ["plaintext"] = { c.tan, c.none, s.default },                -- Global Background
   -- -- Default nvim groups
   ["normal"] = { c.none, c.tiber, s.default },                 -- Global Background
   ["normalfloat"] = { c.none, c.tiberdark, s.default },        -- Global Background
@@ -209,6 +211,9 @@ local custom_groups = {
   -- -- Rust Groups
   ["@lsp.typemod.keyword.unsafe.rust"] = { c.punch, c.none, s.default },      -- rust unfase
   ["@lsp.typemod.typealias.declaration.rust"] = { c.tan, c.none, s.default }, -- type alias lvalue
+  ["@lsp.typemod.enummember.defaultlibrary.rust"] = { c.mystic, c.none, s.default },
+  ["@lsp.typemod.enum.defaultlibrary.rust"] = { c.mystic, c.none, s.default },
+
   -- TODO: unsafe
   -- -- Custom
   -- -- unsorted
@@ -263,8 +268,8 @@ local custom_groups = {
   ["@text.literal.block.markdown"] = { c.mystic, c.none, s.italic },
   ["@text.literal.markdown_inline"] = { c.mystic, c.none, s.italic },
   ["@text.emphasis.markdown_inline"] = { c.tan, c.none, s.italic },
-  ["@text.todo.unchecked.markdown"] = { c.mystic, c.none, s.italic },
-  ["@text.todo.checked.markdown"] = { c.pastelgreen, c.none, s.italic },
+  ["@text.todo.unchecked.markdown"] = { c.mystic, c.none, s.bold },
+  ["@text.todo.checked.markdown"] = { c.pastelgreen, c.none, s.bold },
   -- -- -- Verse support
   ["@verse"] = { c.tan, c.none, s.default },
   ["@verse.block_comment"] = { c.green, c.none, s.comment },
@@ -280,6 +285,11 @@ local custom_groups = {
   ["@verse.keywords.attention"] = { c.punch, c.none, s.default },
 
 }
+
+function Custom_Syntax()
+  -- -- -- Default plain text group
+  --vim.cmd([[syntax region plaintext start=/^/ end=/$/]])
+end
 
 function Load_Verse()
   -- -- -- Verse support groups
@@ -335,5 +345,12 @@ vim.cmd [[
     augroup CustomFileTypeStreamTODO
         autocmd!
         autocmd BufRead,BufNewFile *.verse lua Load_Verse()
+    augroup END
+]]
+
+vim.cmd [[
+    augroup CustomSyntaxGroups
+        autocmd!
+        autocmd BufRead,BufNewFile * lua Custom_Syntax()
     augroup END
 ]]
