@@ -89,6 +89,7 @@ local c = {
   tiber = "#052525",       -- jblow bg
   tiberdark = "#031b1b",   -- jbloxextra float
   tan = "#c8b491",         -- jblow vars
+  tanhalf = "#5a6354",     -- Tan half transparency
   white = "#ffffff",       -- jblow logic
   mystic = "#c3d2e1",      -- jblow it, cast etc
   green = "#50d246",       -- jblow comments
@@ -171,7 +172,7 @@ local custom_groups = {
   ["label"] = { c.punch, c.none, s.default },                  -- case, default, etc.
   ["operator"] = { c.mystic, c.none, s.default },              -- "sizeof", "+", "*", etc.
   ["keyword"] = { c.mystic, c.none, s.default },               -- any other keyword
-  ["exception"] = { c.default, c.default_bg, s.default },      -- try, catch, throw
+  ["exception"] = { c.punch, c.none, s.default },              -- try, catch, throw
   ["preproc"] = { c.punch, c.none, s.default },                -- generic Preprocessor
   ["include"] = { c.mystic, c.none, s.default },               -- preprocessor #include
   ["define"] = { c.mystic, c.none, s.default },                -- preprocessor #define
@@ -180,7 +181,7 @@ local custom_groups = {
   ["type"] = { c.pastelgreen, c.none, s.default },             -- int, long, char, etc.
   ["storageclass"] = { c.mystic, c.none, s.default },          -- static, register, volatile, etc.
   ["structure"] = { c.tan, c.none, s.default },                -- struct, union, enum, etc.
-  ["typedef"] = { c.default, c.default_bg, s.default },        -- a typedef
+  ["typedef"] = { c.pastelgreen, c.none, s.default },          -- a typedef
   ["special"] = { c.punch, c.none, s.default },                -- any special symbol
   ["specialchar"] = { c.punch, c.none, s.default },            -- special character in a constant
   ["tag"] = { c.default, c.default_bg, s.default },            -- you can use CTRL-] on this
@@ -233,6 +234,15 @@ local custom_groups = {
   ["iblIndent"] = { c.swamp, c.none, s.default },
   -- -- Zig Groups
   ["@exception.zig"] = { c.punch, c.none, s.default },
+  ["@attribute.zig"] = { c.mystic, c.none, s.default },
+  ["@type.qualifier.zig"] = { c.mystic, c.none, s.default },
+  ["@boolean.zig"] = { c.riptide, c.none, s.default },
+  ["@lsp.type.struct.zig"] = { c.pastelgreen, c.none, s.default },
+  ["@lsp.type.enum.zig"] = { c.pastelgreen, c.none, s.default },
+  ["@lsp.type.namespace.zig"] = { c.mystic, c.none, s.default },
+  ["@lsp.type.enumMember.zig"] = { c.tan, c.none, s.default },
+  ["@operator.zig"] = { c.white, c.none, s.default },
+
   -- -- -- Telescope
   ["telescopeselection"] = { c.black, c.white, s.default },
   ["telescopematching"] = { c.white, c.black, s.default },
@@ -270,6 +280,10 @@ local custom_groups = {
   ["@text.emphasis.markdown_inline"] = { c.tan, c.none, s.italic },
   ["@text.todo.unchecked.markdown"] = { c.mystic, c.none, s.bold },
   ["@text.todo.checked.markdown"] = { c.pastelgreen, c.none, s.bold },
+  ["@tag.delimiter.html"] = { c.mystic, c.none, s.default },
+  ["@tag.attribute.html"] = { c.tan, c.none, s.default },
+  ["@tag.html"] = { c.mystic, c.none, s.default },
+  ["@text.html"] = { c.tan, c.none, s.default },
   -- -- -- Verse support
   ["@verse"] = { c.tan, c.none, s.default },
   ["@verse.block_comment"] = { c.green, c.none, s.comment },
@@ -283,7 +297,20 @@ local custom_groups = {
   ["@verse.keywords.effects"] = { c.mystic, c.none, s.default },
   ["@verse.keywords.types"] = { c.riptide, c.none, s.default },
   ["@verse.keywords.attention"] = { c.punch, c.none, s.default },
-
+  -- -- -- Odin support
+  ["@type.odin"] = { c.tan, c.none, s.default },
+  ["@odin.numtypes"] = { c.riptide, c.none, s.default },
+  -- -- -- CPP
+  --["@storageclass.cpp"] = { c.pastelgreen, c.none, s.default },
+  ["@lsp.type.macro.cpp"] = { c.mystic, c.none, s.default },
+  ["@lsp.type.enum.cpp"] = { c.pastelgreen, c.none, s.default },
+  ["@lsp.type.property.cpp"] = { c.tan, c.none, s.default },
+  ["@lsp.type.class.cpp"] = { c.pastelgreen, c.none, s.default },
+  ["@lsp.type.namespace.cpp"] = { c.tanhalf, c.none, s.italic },
+  ["@type.qualifier.cpp"] = { c.mystic, c.none, s.default },
+  ["@include.cpp"] = { c.punch, c.none, s.default },
+  ["@define.cpp"] = { c.punch, c.none, s.default },
+  ["@keyword.return.cpp"] = { c.punch, c.none, s.default },
 }
 
 function Custom_Syntax()
@@ -312,6 +339,12 @@ function Load_Verse()
     [[syntax keyword @verse.keywords.types int string logic true vector3 transform false message listenable translation rotation vector2 struct color agent type t comparable char float void creative_prop Print]])
   vim.cmd(
     [[syntax keyword @verse.keywords.effects transacts suspends override abstract native concrete final public unique persistent private computes epic_internal decides localizes varies module_scoped_var_weak_map_key]])
+end
+
+function Load_Odin()
+  -- -- -- Verse support groups
+  vim.cmd(
+    [[syntax keyword @odin.numtypes int i8 i16 i32 i64 i128 uint u8 u16 u32 u64 u128 uintptr f16 f32 f64 quaternion64 quaternion128 quaternion256 rune string cstring rawptr typeid any]])
 end
 
 -- Utility
@@ -345,6 +378,13 @@ vim.cmd [[
     augroup CustomFileTypeStreamTODO
         autocmd!
         autocmd BufRead,BufNewFile *.verse lua Load_Verse()
+    augroup END
+]]
+
+vim.cmd [[
+    augroup CustomFileTypeOdinGroups
+        autocmd!
+        autocmd BufRead,BufNewFile *.odin lua Load_Odin()
     augroup END
 ]]
 
