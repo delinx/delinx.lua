@@ -493,7 +493,7 @@ require('telescope').setup {
         ['<C-d>'] = false,
       },
     },
-    file_ignore_patterns = { "zig-cache/.*", "/home/del/.cache/.*", "/home/del/.local/.*", "/home/del/.config/.*", ".git/.*" },
+    file_ignore_patterns = { ".git", "out", "build" },
     preview = {
       treesitter = true
     }
@@ -912,6 +912,9 @@ vim.keymap.set("n", "<f5>", ":lua Build_rust()<cr>", { silent = true })
 vim.keymap.set("n", "<f4>", ":lua RunTermAndInsert()<cr>", { silent = true })
 vim.keymap.set("t", "<Esc>", [[<C-c><C-\><C-n>:bw!<CR>]], { silent = true })
 vim.keymap.set("n", "<Esc>", ":lua IfTermThenExit()<cr>", { silent = true })
+
+-- Clang
+vim.keymap.set("n", "H", ":ClangdSwitchSourceHeader<cr>", { silent = true })
 
 -- Stream todo rename
 function Stream_todo()
